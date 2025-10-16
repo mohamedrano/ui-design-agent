@@ -1,31 +1,50 @@
-module.exports = {
-    env: {
-        browser: true,
-        es2021: true,
-    },
-    extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
-        'plugin:prettier/recommended',
-    ],
-    parser: '@typescript-eslint/parser',
-    parserOptions: {
-        ecmaFeatures: {
-            jsx: true,
-        },
-        ecmaVersion: 12,
+const { FlatCompat } = require('@eslint/eslintrc')
+const js = require('@eslint/js')
+const tsParser = require('@typescript-eslint/parser')
+const tsPlugin = require('@typescript-eslint/eslint-plugin')
+const prettierConfig = require('eslint-config-prettier')
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+})
+
+module.exports = [
+  ...compat.extends('next/core-web-vitals'),
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
         sourceType: 'module',
-    },
-    plugins: ['react', '@typescript-eslint'],
-    rules: {
-        'react/react-in-jsx-scope': 'off',
-        'prettier/prettier': 'error',
-    },
-    settings: {
-        react: {
-            version: 'detect',
+        ecmaFeatures: {
+          jsx: true,
         },
+      },
     },
-};
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/prefer-const': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+    },
+  },
+  prettierConfig,
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      '*.config.js',
+      '*.config.ts',
+    ],
+  },
+]
