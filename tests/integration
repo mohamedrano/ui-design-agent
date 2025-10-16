@@ -1,0 +1,14 @@
+# Integration Tests
+
+import { render, screen } from '@testing-library/react';
+import { YourComponent } from '../../src/components/YourComponent'; // Adjust the import based on your component's location
+
+describe('Integration Tests for YourComponent', () => {
+  test('renders correctly', () => {
+    render(<YourComponent />);
+    const element = screen.getByText(/expected text/i); // Replace with actual text to check
+    expect(element).toBeInTheDocument();
+  });
+
+  // Add more integration tests as needed
+});

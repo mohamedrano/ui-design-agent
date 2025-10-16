@@ -1,0 +1,34 @@
+{
+  "name": "ui-design-agent",
+  "version": "1.0.0",
+  "description": "A project for designing and analyzing UI components with AI assistance.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "jest",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "ui",
+    "design",
+    "ai",
+    "analysis"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^12.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "axios": "^0.21.1",
+    "tailwindcss": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "prettier": "^2.0.0",
+    "jest": "^26.0.0"
+  }
+}
