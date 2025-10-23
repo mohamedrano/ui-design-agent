@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Run lint-staged for staged files
+echo "📝 Formatting and linting staged files..."
+npx lint-staged
+
+# Exit if lint-staged failed
+if [ $? -ne 0 ]; then
+  echo "❌ Lint-staged failed. Please fix the issues and try again."
+  exit 1
+fi
+
+# Run type checking
+echo "🔍 Running TypeScript type check..."
+pnpm type-check
+
+if [ $? -ne 0 ]; then
+  echo "❌ TypeScript type check failed. Please fix type errors and try again."
+  exit 1
+fi
+
+# Run tests with coverage (only changed files in non-CI environment)
+echo "🧪 Running tests..."
+if [ "$CI" = "true" ]; then
+  pnpm test:coverage
+else
+  pnpm test --changed --passWithNoTests
+fi
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Please fix failing tests and try again."
+  exit 1
+fi
+
+# Check for environment file
+if [ ! -f ".env.local" ] && [ ! -f ".env" ]; then
+  echo "⚠️  Warning: No .env.local or .env file found. Make sure environment variables are configured."
+fi
+
+# Success message
+echo "✅ Pre-commit checks passed! Proceeding with commit..."
