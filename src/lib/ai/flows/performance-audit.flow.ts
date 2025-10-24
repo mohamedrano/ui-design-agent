@@ -1,31 +1,45 @@
 import { defineFlow } from '@genkit-ai/flow';
+import { z } from 'zod';
+
+const inputSchema = z.object({
+  code: z.string(),
+  options: z
+    .object({
+      includeMetrics: z.boolean().optional().default(false),
+      includeRecommendations: z.boolean().optional().default(false),
+      severity: z.string().optional().default('medium'),
+    })
+    .optional()
+    .default({}),
+});
+
+const outputSchema = z.object({
+  analysis: z.object({
+    estimatedLoadTime: z.number(),
+    estimatedBundleSize: z.number(),
+    renderBlockingScripts: z.number(),
+    unoptimizedImages: z.number(),
+  }),
+  recommendations: z.array(z.any()),
+  metrics: z.object({
+    estimatedLoadTime: z.number(),
+    estimatedBundleSize: z.number(),
+    renderBlockingScripts: z.number(),
+    unoptimizedImages: z.number(),
+    performance: z.string(),
+    accessibility: z.string(),
+  }),
+  severity: z.string(),
+});
 
 export const analyzePerformanceFlow = defineFlow(
   {
     name: 'analyzePerformanceFlow',
-    inputSchema: {
-      code: { type: String },
-      options: {
-        type: Object,
-        properties: {
-          includeMetrics: { type: Boolean, default: false },
-          includeRecommendations: { type: Boolean, default: false },
-          severity: { type: String, default: 'medium' },
-        },
-      },
-    },
-    outputSchema: {
-      type: Object,
-      properties: {
-        analysis: { type: Object },
-        recommendations: { type: Array },
-        metrics: { type: Object },
-        severity: { type: String },
-      },
-    },
+    inputSchema,
+    outputSchema,
   },
   async input => {
-    const { code = '', options = {} as Record<string, unknown> } = input;
+    const { code = '', options = {} } = input;
 
     const analysis = {
       estimatedLoadTime: Math.random() * 2000 + 500,
