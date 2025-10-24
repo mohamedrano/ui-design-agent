@@ -1,21 +1,31 @@
 import { z } from 'zod';
+import { config } from 'dotenv';
+
+// Load environment variables from .env file
+config();
 
 const envSchema = z.object({
   // Node Environment
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
 
   // Server Configuration
   PORT: z.coerce.number().default(3000),
   HOST: z.string().default('localhost'),
 
   // API Keys - Required for AI Services
-  GOOGLE_GENAI_API_KEY: z.string().min(1, 'Google Generative AI API key is required'),
+  GOOGLE_GENAI_API_KEY: z
+    .string()
+    .min(1, 'Google Generative AI API key is required'),
   OPENAI_API_KEY: z.string().min(1, 'OpenAI API key is required'),
   ANTHROPIC_API_KEY: z.string().min(1, 'Anthropic API key is required'),
   HUGGINGFACE_API_KEY: z.string().min(1, 'HuggingFace API key is required'),
 
   // Design Tools Integration
-  FIGMA_ACCESS_TOKEN: z.string().min(1, 'Figma access token is required for design integration'),
+  FIGMA_ACCESS_TOKEN: z
+    .string()
+    .min(1, 'Figma access token is required for design integration'),
 
   // Database (Optional for advanced features)
   DATABASE_URL: z.string().optional(),
@@ -35,10 +45,22 @@ const envSchema = z.object({
   VERCEL_ANALYTICS_ID: z.string().optional(),
 
   // Feature Flags
-  ENABLE_ANALYTICS: z.enum(['true', 'false']).default('true').transform(val => val === 'true'),
-  ENABLE_VOICE_FEATURES: z.enum(['true', 'false']).default('true').transform(val => val === 'true'),
-  ENABLE_3D_PREVIEW: z.enum(['true', 'false']).default('true').transform(val => val === 'true'),
-  ENABLE_AI_SUGGESTIONS: z.enum(['true', 'false']).default('true').transform(val => val === 'true'),
+  ENABLE_ANALYTICS: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform(val => val === 'true'),
+  ENABLE_VOICE_FEATURES: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform(val => val === 'true'),
+  ENABLE_3D_PREVIEW: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform(val => val === 'true'),
+  ENABLE_AI_SUGGESTIONS: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform(val => val === 'true'),
 
   // Rate Limiting
   RATE_LIMIT_REQUESTS_PER_MINUTE: z.coerce.number().default(100),
@@ -60,7 +82,10 @@ const envSchema = z.object({
   WEBHOOK_SECRET: z.string().optional(),
 
   // Development Only
-  SKIP_ENV_VALIDATION: z.enum(['true', 'false']).default('false').transform(val => val === 'true'),
+  SKIP_ENV_VALIDATION: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform(val => val === 'true'),
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -70,7 +95,7 @@ function validateEnv(): Env {
   const env = process.env;
 
   // Skip validation in test environment if explicitly requested
-  if (env.SKIP_ENV_VALIDATION === 'true' && env.NODE_ENV === 'test') {
+  if (env.SKIP_ENV_VALIDATION === 'true') {
     console.warn('⚠️  Environment validation skipped for testing');
     return env as unknown as Env;
   }
@@ -83,14 +108,18 @@ function validateEnv(): Env {
     if (!isProduction) {
       console.log('✅ Environment variables validated successfully');
       console.log(`📊 Running in ${validatedEnv.NODE_ENV} mode`);
-      console.log(`🚀 Server will start on ${validatedEnv.HOST}:${validatedEnv.PORT}`);
+      console.log(
+        `🚀 Server will start on ${validatedEnv.HOST}:${validatedEnv.PORT}`
+      );
     }
 
     return validatedEnv;
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.error('❌ Environment validation failed!');
-      console.error('💡 Please check your .env file and ensure all required variables are set.\n');
+      console.error(
+        '💡 Please check your .env file and ensure all required variables are set.\n'
+      );
 
       console.error('Missing or invalid environment variables:');
       error.errors.forEach(err => {
@@ -100,14 +129,22 @@ function validateEnv(): Env {
       console.error('\n📝 Required environment variables:');
       console.error('  • GOOGLE_GENAI_API_KEY - Google Generative AI API key');
       console.error('  • OPENAI_API_KEY - OpenAI API key for GPT models');
-      console.error('  • ANTHROPIC_API_KEY - Anthropic API key for Claude models');
-      console.error('  • HUGGINGFACE_API_KEY - HuggingFace API key for ML models');
+      console.error(
+        '  • ANTHROPIC_API_KEY - Anthropic API key for Claude models'
+      );
+      console.error(
+        '  • HUGGINGFACE_API_KEY - HuggingFace API key for ML models'
+      );
       console.error('  • FIGMA_ACCESS_TOKEN - Figma personal access token');
 
       console.error('\n💡 Optional but recommended:');
       console.error('  • SENTRY_DSN - Error monitoring and reporting');
-      console.error('  • DATABASE_URL - Database connection for persistent data');
-      console.error('  • REDIS_URL - Cache server for performance optimization');
+      console.error(
+        '  • DATABASE_URL - Database connection for persistent data'
+      );
+      console.error(
+        '  • REDIS_URL - Cache server for performance optimization'
+      );
 
       console.error('\n📋 See .env.example for a complete template');
 
@@ -161,7 +198,7 @@ export function checkRuntimeEnvironment() {
     'OPENAI_API_KEY',
     'ANTHROPIC_API_KEY',
     'HUGGINGFACE_API_KEY',
-    'FIGMA_ACCESS_TOKEN'
+    'FIGMA_ACCESS_TOKEN',
   ];
 
   const missing = requiredForRuntime.filter(key => !process.env[key]);
@@ -169,7 +206,7 @@ export function checkRuntimeEnvironment() {
   if (missing.length > 0 && !isTest) {
     throw new Error(
       `Missing required environment variables: ${missing.join(', ')}\n` +
-      'Please check your .env file and ensure all required API keys are configured.'
+        'Please check your .env file and ensure all required API keys are configured.'
     );
   }
 }

@@ -164,7 +164,9 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [sortBy, setSortBy] = useState<'name' | 'date' | 'score' | 'priority'>('date');
+  const [sortBy, setSortBy] = useState<'name' | 'date' | 'score' | 'priority'>(
+    'date'
+  );
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterCategory, setFilterCategory] = useState<string>('all');
@@ -188,8 +190,10 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
         id: '1',
         name: 'E-commerce Platform Redesign',
         nameAr: 'إعادة تصميم منصة التجارة الإلكترونية',
-        description: 'Complete redesign of the e-commerce platform with AI personalization',
-        descriptionAr: 'إعادة تصميم شاملة لمنصة التجارة الإلكترونية مع التخصيص بالذكاء الاصطناعي',
+        description:
+          'Complete redesign of the e-commerce platform with AI personalization',
+        descriptionAr:
+          'إعادة تصميم شاملة لمنصة التجارة الإلكترونية مع التخصيص بالذكاء الاصطناعي',
         status: 'development',
         priority: 'high',
         category: 'web',
@@ -198,7 +202,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           id: 'user1',
           name: 'أحمد محمد',
           avatar: '/avatars/user1.jpg',
-          role: 'Senior UX Designer'
+          role: 'Senior UX Designer',
         },
         collaborators: [
           {
@@ -206,15 +210,15 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
             name: 'فاطمة علي',
             avatar: '/avatars/user2.jpg',
             role: 'UI Designer',
-            permissions: ['view', 'edit', 'comment']
+            permissions: ['view', 'edit', 'comment'],
           },
           {
             id: 'user3',
             name: 'محمد الشريف',
             avatar: '/avatars/user3.jpg',
             role: 'Developer',
-            permissions: ['view', 'comment']
-          }
+            permissions: ['view', 'comment'],
+          },
         ],
         createdAt: new Date('2024-01-15'),
         updatedAt: new Date('2024-02-10'),
@@ -231,7 +235,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUIScore: 30,
           zeroUIScore: 25,
           overallScore: 79,
-          lastAnalyzed: new Date('2024-02-10')
+          lastAnalyzed: new Date('2024-02-10'),
         },
         designTrends: {
           aiPersonalization: true,
@@ -240,7 +244,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUI: false,
           zeroUI: false,
           sustainableDesign: true,
-          modernVisuals: true
+          modernVisuals: true,
         },
         files: [
           {
@@ -249,8 +253,8 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
             type: 'design',
             size: 2500000,
             url: '/files/homepage-design.fig',
-            createdAt: new Date('2024-01-20')
-          }
+            createdAt: new Date('2024-01-20'),
+          },
         ],
         comments: [
           {
@@ -258,7 +262,8 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
             userId: 'user2',
             userName: 'فاطمة علي',
             userAvatar: '/avatars/user2.jpg',
-            content: 'التصميم ممتاز! هل يمكن إضافة المزيد من التفاعلات الدقيقة؟',
+            content:
+              'التصميم ممتاز! هل يمكن إضافة المزيد من التفاعلات الدقيقة؟',
             createdAt: new Date('2024-02-08'),
             replies: [
               {
@@ -266,12 +271,13 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
                 userId: 'user1',
                 userName: 'أحمد محمد',
                 userAvatar: '/avatars/user1.jpg',
-                content: 'بالتأكيد، سأعمل على إضافة المزيد من التأثيرات التفاعلية',
-                createdAt: new Date('2024-02-08')
-              }
-            ]
-          }
-        ]
+                content:
+                  'بالتأكيد، سأعمل على إضافة المزيد من التأثيرات التفاعلية',
+                createdAt: new Date('2024-02-08'),
+              },
+            ],
+          },
+        ],
       },
       {
         id: '2',
@@ -287,7 +293,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           id: 'user2',
           name: 'فاطمة علي',
           avatar: '/avatars/user2.jpg',
-          role: 'AR/VR Designer'
+          role: 'AR/VR Designer',
         },
         collaborators: [
           {
@@ -295,8 +301,8 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
             name: 'أحمد محمد',
             avatar: '/avatars/user1.jpg',
             role: 'Senior UX Designer',
-            permissions: ['view', 'edit', 'comment']
-          }
+            permissions: ['view', 'edit', 'comment'],
+          },
         ],
         createdAt: new Date('2024-02-01'),
         updatedAt: new Date('2024-02-05'),
@@ -313,7 +319,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUIScore: 70,
           zeroUIScore: 85,
           overallScore: 75,
-          lastAnalyzed: new Date('2024-02-05')
+          lastAnalyzed: new Date('2024-02-05'),
         },
         designTrends: {
           aiPersonalization: true,
@@ -322,10 +328,10 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUI: true,
           zeroUI: true,
           sustainableDesign: false,
-          modernVisuals: true
+          modernVisuals: true,
         },
         files: [],
-        comments: []
+        comments: [],
       },
       {
         id: '3',
@@ -341,7 +347,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           id: 'user3',
           name: 'محمد الشريف',
           avatar: '/avatars/user3.jpg',
-          role: 'Voice UI Designer'
+          role: 'Voice UI Designer',
         },
         collaborators: [],
         createdAt: new Date('2024-01-10'),
@@ -359,7 +365,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUIScore: 98,
           zeroUIScore: 90,
           overallScore: 81,
-          lastAnalyzed: new Date('2024-02-12')
+          lastAnalyzed: new Date('2024-02-12'),
         },
         designTrends: {
           aiPersonalization: true,
@@ -368,11 +374,11 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
           voiceUI: true,
           zeroUI: true,
           sustainableDesign: true,
-          modernVisuals: true
+          modernVisuals: true,
         },
         files: [],
-        comments: []
-      }
+        comments: [],
+      },
     ];
 
     return mockProjects;
@@ -400,13 +406,18 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
   // Filtered and sorted projects
   const filteredProjects = useMemo(() => {
     let filtered = projects.filter(project => {
-      const matchesSearch = searchQuery === '' ||
+      const matchesSearch =
+        searchQuery === '' ||
         project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         project.nameAr.includes(searchQuery) ||
-        project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        project.tags.some(tag =>
+          tag.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
-      const matchesStatus = filterStatus === 'all' || project.status === filterStatus;
-      const matchesCategory = filterCategory === 'all' || project.category === filterCategory;
+      const matchesStatus =
+        filterStatus === 'all' || project.status === filterStatus;
+      const matchesCategory =
+        filterCategory === 'all' || project.category === filterCategory;
 
       return matchesSearch && matchesStatus && matchesCategory;
     });
@@ -437,92 +448,114 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
     });
 
     return filtered;
-  }, [projects, searchQuery, filterStatus, filterCategory, sortBy, sortOrder, language]);
+  }, [
+    projects,
+    searchQuery,
+    filterStatus,
+    filterCategory,
+    sortBy,
+    sortOrder,
+    language,
+  ]);
 
   // Project CRUD operations
-  const handleCreateProject = useCallback((projectData: Partial<Project>) => {
-    const newProject: Project = {
-      id: Date.now().toString(),
-      name: projectData.name || 'New Project',
-      nameAr: projectData.nameAr || 'مشروع جديد',
-      description: projectData.description || '',
-      descriptionAr: projectData.descriptionAr || '',
-      status: 'planning',
-      priority: 'medium',
-      category: 'web',
-      tags: [],
-      owner: {
-        id: 'current-user',
-        name: 'المستخدم الحالي',
-        avatar: '/avatars/current-user.jpg',
-        role: 'Designer'
-      },
-      collaborators: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      progress: 0,
-      isFavorite: false,
-      isPublic: false,
-      analytics: {
-        accessibilityScore: 0,
-        performanceScore: 0,
-        sustainabilityScore: 0,
-        aiPersonalizationScore: 0,
-        spatialDesignScore: 0,
-        voiceUIScore: 0,
-        zeroUIScore: 0,
-        overallScore: 0,
-        lastAnalyzed: new Date()
-      },
-      designTrends: {
-        aiPersonalization: false,
-        accessibility: false,
-        spatialDesign: false,
-        voiceUI: false,
-        zeroUI: false,
-        sustainableDesign: false,
-        modernVisuals: false
-      },
-      files: [],
-      comments: [],
-      ...projectData
-    };
+  const handleCreateProject = useCallback(
+    (projectData: Partial<Project>) => {
+      const newProject: Project = {
+        id: Date.now().toString(),
+        name: projectData.name || 'New Project',
+        nameAr: projectData.nameAr || 'مشروع جديد',
+        description: projectData.description || '',
+        descriptionAr: projectData.descriptionAr || '',
+        status: 'planning',
+        priority: 'medium',
+        category: 'web',
+        tags: [],
+        owner: {
+          id: 'current-user',
+          name: 'المستخدم الحالي',
+          avatar: '/avatars/current-user.jpg',
+          role: 'Designer',
+        },
+        collaborators: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        progress: 0,
+        isFavorite: false,
+        isPublic: false,
+        analytics: {
+          accessibilityScore: 0,
+          performanceScore: 0,
+          sustainabilityScore: 0,
+          aiPersonalizationScore: 0,
+          spatialDesignScore: 0,
+          voiceUIScore: 0,
+          zeroUIScore: 0,
+          overallScore: 0,
+          lastAnalyzed: new Date(),
+        },
+        designTrends: {
+          aiPersonalization: false,
+          accessibility: false,
+          spatialDesign: false,
+          voiceUI: false,
+          zeroUI: false,
+          sustainableDesign: false,
+          modernVisuals: false,
+        },
+        files: [],
+        comments: [],
+        ...projectData,
+      };
 
-    setProjects(prev => [...prev, newProject]);
-    setIsCreateModalOpen(false);
+      setProjects(prev => [...prev, newProject]);
+      setIsCreateModalOpen(false);
 
-    if (onProjectCreate) {
-      onProjectCreate(newProject);
-    }
-  }, [onProjectCreate]);
+      if (onProjectCreate) {
+        onProjectCreate(newProject);
+      }
+    },
+    [onProjectCreate]
+  );
 
-  const handleUpdateProject = useCallback((projectId: string, updates: Partial<Project>) => {
-    setProjects(prev => prev.map(project =>
-      project.id === projectId
-        ? { ...project, ...updates, updatedAt: new Date() }
-        : project
-    ));
+  const handleUpdateProject = useCallback(
+    (projectId: string, updates: Partial<Project>) => {
+      setProjects(prev =>
+        prev.map(project =>
+          project.id === projectId
+            ? { ...project, ...updates, updatedAt: new Date() }
+            : project
+        )
+      );
 
-    if (onProjectUpdate) {
-      onProjectUpdate(projectId, updates);
-    }
-  }, [onProjectUpdate]);
+      if (onProjectUpdate) {
+        onProjectUpdate(projectId, updates);
+      }
+    },
+    [onProjectUpdate]
+  );
 
-  const handleDeleteProject = useCallback((projectId: string) => {
-    setProjects(prev => prev.filter(project => project.id !== projectId));
-    setIsDeleteModalOpen(false);
-    setSelectedProject(null);
+  const handleDeleteProject = useCallback(
+    (projectId: string) => {
+      setProjects(prev => prev.filter(project => project.id !== projectId));
+      setIsDeleteModalOpen(false);
+      setSelectedProject(null);
 
-    if (onProjectDelete) {
-      onProjectDelete(projectId);
-    }
-  }, [onProjectDelete]);
+      if (onProjectDelete) {
+        onProjectDelete(projectId);
+      }
+    },
+    [onProjectDelete]
+  );
 
-  const handleToggleFavorite = useCallback((projectId: string) => {
-    handleUpdateProject(projectId, {
-      isFavorite: !projects.find(p => p.id === projectId)?.isFavorite
-    });
-  }, [projects, handleUpdateProject]);
+  const handleToggleFavorite = useCallback(
+    (projectId: string) => {
+      handleUpdateProject(projectId, {
+        isFavorite: !projects.find(p => p.id === projectId)?.isFavorite,
+      });
+    },
+    [projects, handleUpdateProject]
+  );
 
   // Drag and drop
   const handleDragStart = useCallback((projectId: string) => {
@@ -536,34 +569,52 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
   // Utility functions
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'planning': return 'text-blue-600 bg-blue-100 dark:bg-blue-900/30';
-      case 'development': return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30';
-      case 'testing': return 'text-purple-600 bg-purple-100 dark:bg-purple-900/30';
-      case 'completed': return 'text-green-600 bg-green-100 dark:bg-green-900/30';
-      case 'archived': return 'text-gray-600 bg-gray-100 dark:bg-gray-900/30';
-      default: return 'text-gray-600 bg-gray-100 dark:bg-gray-900/30';
+      case 'planning':
+        return 'text-blue-600 bg-blue-100 dark:bg-blue-900/30';
+      case 'development':
+        return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30';
+      case 'testing':
+        return 'text-purple-600 bg-purple-100 dark:bg-purple-900/30';
+      case 'completed':
+        return 'text-green-600 bg-green-100 dark:bg-green-900/30';
+      case 'archived':
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-900/30';
+      default:
+        return 'text-gray-600 bg-gray-100 dark:bg-gray-900/30';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'low': return 'text-gray-600';
-      case 'medium': return 'text-blue-600';
-      case 'high': return 'text-orange-600';
-      case 'critical': return 'text-red-600';
-      default: return 'text-gray-600';
+      case 'low':
+        return 'text-gray-600';
+      case 'medium':
+        return 'text-blue-600';
+      case 'high':
+        return 'text-orange-600';
+      case 'critical':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
     }
   };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'web': return <Globe className="w-4 h-4" />;
-      case 'mobile': return <Zap className="w-4 h-4" />;
-      case 'desktop': return <Monitor className="w-4 h-4" />;
-      case 'ar-vr': return <Cube className="w-4 h-4" />;
-      case 'voice': return <Mic className="w-4 h-4" />;
-      case 'ai': return <Brain className="w-4 h-4" />;
-      default: return <Folder className="w-4 h-4" />;
+      case 'web':
+        return <Globe className='w-4 h-4' />;
+      case 'mobile':
+        return <Zap className='w-4 h-4' />;
+      case 'desktop':
+        return <Monitor className='w-4 h-4' />;
+      case 'ar-vr':
+        return <Cube className='w-4 h-4' />;
+      case 'voice':
+        return <Mic className='w-4 h-4' />;
+      case 'ai':
+        return <Brain className='w-4 h-4' />;
+      default:
+        return <Folder className='w-4 h-4' />;
     }
   };
 
@@ -573,9 +624,9 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
@@ -583,8 +634,8 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   const cardVariants = {
@@ -592,65 +643,70 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.3 }
+      transition: { duration: 0.3 },
     },
     hover: {
       scale: 1.02,
       y: -5,
-      transition: { duration: 0.2 }
-    }
+      transition: { duration: 0.2 },
+    },
   };
 
   if (isLoading) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${
-        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
-      }`}>
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+        }`}
+      >
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full"
+          className='w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full'
         />
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen transition-all duration-500 ${
-      isDarkMode
-        ? 'bg-gray-900 text-white'
-        : 'bg-gradient-to-br from-gray-50 via-white to-blue-50 text-gray-900'
-    }`}>
+    <div
+      className={`min-h-screen transition-all duration-500 ${
+        isDarkMode
+          ? 'bg-gray-900 text-white'
+          : 'bg-gradient-to-br from-gray-50 via-white to-blue-50 text-gray-900'
+      }`}
+    >
       {/* Header */}
-      <div className="sticky top-0 z-40 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center space-x-4">
+      <div className='sticky top-0 z-40 backdrop-blur-xl border-b border-white/10'>
+        <div className='max-w-7xl mx-auto px-6 py-4'>
+          <div className='flex flex-col lg:flex-row gap-4 items-center justify-between'>
+            <div className='flex items-center space-x-4'>
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center"
+                className='w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center'
               >
-                <Folder className="w-6 h-6 text-white" />
+                <Folder className='w-6 h-6 text-white' />
               </motion.div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className='text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
                   مدير المشاريع
                 </h1>
-                <p className="text-sm opacity-70">
-                  Project Manager • {filteredProjects.length} من {projects.length} مشروع
+                <p className='text-sm opacity-70'>
+                  Project Manager • {filteredProjects.length} من{' '}
+                  {projects.length} مشروع
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
+            <div className='flex items-center space-x-3'>
               {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <div className='relative'>
+                <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400' />
                 <input
-                  type="text"
-                  placeholder="بحث في المشاريع..."
+                  type='text'
+                  placeholder='بحث في المشاريع...'
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                   className={`pl-10 pr-4 py-2 rounded-2xl border transition-all focus:ring-2 focus:ring-purple-500 ${
                     isDarkMode
                       ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400'
@@ -660,10 +716,10 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex bg-white/10 rounded-2xl p-1 backdrop-blur-sm">
+              <div className='flex bg-white/10 rounded-2xl p-1 backdrop-blur-sm'>
                 {[
                   { key: 'grid', icon: Grid },
-                  { key: 'list', icon: List }
+                  { key: 'list', icon: List },
                 ].map(({ key, icon: Icon }) => (
                   <motion.button
                     key={key}
@@ -676,7 +732,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
                         : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className='w-4 h-4' />
                   </motion.button>
                 ))}
               </div>
@@ -694,7 +750,7 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
                       : 'bg-white/70 text-gray-700'
                 } backdrop-blur-sm border border-white/20`}
               >
-                <Filter className="w-5 h-5" />
+                <Filter className='w-5 h-5' />
               </motion.button>
 
               {/* Create Project */}
@@ -702,9 +758,9 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsCreateModalOpen(true)}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl font-semibold shadow-lg flex items-center space-x-2"
+                className='px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl font-semibold shadow-lg flex items-center space-x-2'
               >
-                <Plus className="w-5 h-5" />
+                <Plus className='w-5 h-5' />
                 <span>مشروع جديد</span>
               </motion.button>
             </div>
@@ -717,47 +773,63 @@ const ProjectManager: React.FC<ProjectManagerProps> = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-4 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
+                className='mt-4 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20'
               >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
                   {/* Status Filter */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">الحالة</label>
+                    <label className='block text-sm font-medium mb-2'>
+                      الحالة
+                    </label>
                     <select
                       value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value)}
+                      onChange={e => setFilterStatus(e.target.value)}
                       className={`w-full p-2 rounded-xl border ${
                         isDarkMode
                           ? 'bg-gray-800 border-gray-600 text-white'
                           : 'bg-white border-gray-300 text-gray-900'
                       }`}
                     >
-                      <option value="all">جميع الحالات</option>
-                      <option value="planning">التخطيط</option>
-                      <option value="development">التطوير</option>
-                      <option value="testing">الاختبار</option>
-                      <option value="completed">مكتمل</option>
-                      <option value="archived">مؤرشف</option>
+                      <option value='all'>جميع الحالات</option>
+                      <option value='planning'>التخطيط</option>
+                      <option value='development'>التطوير</option>
+                      <option value='testing'>الاختبار</option>
+                      <option value='completed'>مكتمل</option>
+                      <option value='archived'>مؤرشف</option>
                     </select>
                   </div>
 
                   {/* Category Filter */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">الفئة</label>
+                    <label className='block text-sm font-medium mb-2'>
+                      الفئة
+                    </label>
                     <select
                       value={filterCategory}
-                      onChange={(e) => setFilterCategory(e.target.value)}
+                      onChange={e => setFilterCategory(e.target.value)}
                       className={`w-full p-2 rounded-xl border ${
                         isDarkMode
                           ? 'bg-gray-800 border-gray-600 text-white'
                           : 'bg-white border-gray-300 text-gray-900'
                       }`}
                     >
-                      <option value="all">جميع الفئات</option>
-                      <option value="web">ويب</option>
-                      <option value="mobile">جوال</option>
-                      <option value="desktop">سطح المكتب</option>
-                      <option value="ar-vr">واقع معزز/افتراضي</option>
-                      <option value="voice">واجهة صوتية</option>
-                      <option value="ai">ذكاء اصطناعي</option>
-                    </select
+                      <option value='all'>جميع الفئات</option>
+                      <option value='web'>ويب</option>
+                      <option value='mobile'>جوال</option>
+                      <option value='desktop'>سطح المكتب</option>
+                      <option value='ar-vr'>واقع معزز/افتراضي</option>
+                      <option value='voice'>واجهة صوتية</option>
+                      <option value='ai'>ذكاء اصطناعي</option>
+                    </select>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectManager;

@@ -57,7 +57,6 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // Performance optimizations
   reactStrictMode: true,
-  swcMinify: true,
   poweredByHeader: false,
   generateEtags: true,
   compress: true,
@@ -71,16 +70,10 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-dropdown-menu',
       'framer-motion',
     ],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-    serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
   },
+
+  // Server external packages
+  serverExternalPackages: ['sharp', 'onnxruntime-node'],
 
   // Image optimization
   images: {
@@ -259,19 +252,6 @@ const nextConfig: NextConfig = {
     dirs: ['src', 'app'],
   },
 
-  // Server runtime configuration
-  serverRuntimeConfig: {
-    // Private runtime config (server-side only)
-    maxRequestSize: '10mb',
-    apiTimeout: 30000,
-  },
-
-  // Public runtime configuration
-  publicRuntimeConfig: {
-    // Public runtime config (client + server side)
-    staticFolder: '/static',
-  },
-
   // Disable x-powered-by header
   poweredByHeader: false,
 
@@ -292,8 +272,6 @@ const nextConfig: NextConfig = {
     },
   },
 
-  // Asset optimization
-  optimizeFonts: true,
   modularizeImports: {
     'lucide-react': {
       transform: 'lucide-react/dist/esm/icons/{{ kebabCase member }}',

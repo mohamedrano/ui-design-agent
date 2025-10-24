@@ -82,7 +82,7 @@ vi.mock('next/navigation', () => ({
 vi.mock('next/image', () => ({
   default: ({ src, alt, ...props }: any) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={alt} {...props} />;
+    return React.createElement('img', { src, alt, ...props });
   },
 }));
 
@@ -93,7 +93,7 @@ vi.mock('framer-motion', () => ({
     {
       get: (target, prop) => {
         const Component = ({ children, ...props }: any) => {
-          return <div {...props}>{children}</div>;
+          return React.createElement('div', props, children);
         };
         return Component;
       },
@@ -204,9 +204,12 @@ global.FileReader = class MockFileReader {
   result: string | ArrayBuffer | null = null;
   error: DOMException | null = null;
   readyState: number = 0;
-  onload: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
-  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
-  onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+  onload: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null =
+    null;
+  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null =
+    null;
+  onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null =
+    null;
 
   readAsDataURL(file: Blob) {
     setTimeout(() => {
@@ -303,10 +306,12 @@ beforeAll(() => {
   // Suppress console errors/warnings in tests unless explicitly needed
   console.error = vi.fn((message, ...args) => {
     // Allow specific error messages through
-    if (typeof message === 'string' &&
-        (message.includes('Warning') ||
-         message.includes('Error') ||
-         message.includes('Failed'))) {
+    if (
+      typeof message === 'string' &&
+      (message.includes('Warning') ||
+        message.includes('Error') ||
+        message.includes('Failed'))
+    ) {
       return;
     }
     originalConsoleError(message, ...args);
@@ -371,8 +376,8 @@ export const createMockImage = (
     ctx.fillRect(0, 0, width, height);
   }
 
-  return new Promise<File>((resolve) => {
-    canvas.toBlob((blob) => {
+  return new Promise<File>(resolve => {
+    canvas.toBlob(blob => {
       resolve(new File([blob!], name, { type: 'image/jpeg' }));
     }, 'image/jpeg');
   }) as any;
