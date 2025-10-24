@@ -8,39 +8,224 @@ on:
     branches:
       - main
 
+env:
+  SKIP_ENV_VALIDATION: 'true'
+  NODE_ENV: 'test'
+
 jobs:
-  build:
+  validate:
+    name: 🔍 Validate & Lint
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: '16'
+          version: 8
 
-      - name: Install dependencies
-        run: npm install
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
 
-      - name: Run lint
-        run: npm run lint
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Run type check
-        run: npm run type-check
+      - name: 🔍 Type check
+        run: pnpm type-check
 
-      - name: Run tests
-        run: npm test
+      - name: 🎨 Lint
+        run: pnpm lint
 
-      - name: Run accessibility checks
-        run: npm run axe
+      - name: 💅 Format check
+        run: pnpm format:check
 
-      - name: Run performance budgets
-        run: npm run lighthouse
+  test:
+    name: 🧪 Unit & Integration Tests
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
 
-      - name: Build project
-        run: npm run build
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-      - name: Upload coverage
-        run: npm run coverage
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🧪 Run tests with coverage
+        run: pnpm test:coverage
+
+      - name: 📊 Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage-final.json
+          flags: unittests
+          name: codecov-umbrella
+
+  e2e:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🎭 Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: 🏗️ Build application
+        run: pnpm build
+        env:
+          SKIP_ENV_VALIDATION: 'true'
+
+      - name: 🎭 Run E2E tests
+        run: pnpm e2e
+
+      - name: 📸 Upload test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: [validate, test]
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🏗️ Build for production
+        run: pnpm build
+        env:
+          SKIP_ENV_VALIDATION: 'true'
+
+      - name: 📦 Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: .next/
+          retention-days: 3
+
+  quality:
+    name: 📊 Quality Checks (A11y & Perf)
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 📦 Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: .next/
+
+      - name: 🚀 Start server in background
+        run: |
+          pnpm start &
+          sleep 10
+        env:
+          SKIP_ENV_VALIDATION: 'true'
+
+      - name: ♿ Run accessibility tests
+        run: pnpm a11y:ci
+
+      - name: ⚡ Run performance budgets
+        run: pnpm perf:ci
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: 📊 Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: .lighthouseci/
+          retention-days: 7
+
+  security:
+    name: 🔒 Security Audit
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 📚 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔒 Run security audit
+        run: pnpm audit:security
+        continue-on-error: true
+
+      - name: 📜 Check licenses
+        run: pnpm audit:licenses
