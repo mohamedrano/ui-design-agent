@@ -186,7 +186,7 @@ pnpm start
     "test": "vitest run",
     "test:ui": "vitest --ui",
     "e2e": "playwright test",
-    "a11y": "axe -c axe.config.cjs",
+    "a11y": "axe -c axe.config.cjs --base-url http://localhost:3000",
     "perf": "lhci autorun",
     "prepare": "husky install",
     "ci:all": "pnpm type-check && pnpm lint && pnpm test && pnpm e2e && pnpm a11y && pnpm perf"

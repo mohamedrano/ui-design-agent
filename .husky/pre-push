@@ -110,7 +110,7 @@ if command -v lhci >/dev/null 2>&1; then
     # Don't fail push for performance, but warn
   fi
 else
-  print_warning "Performance testing skipped (lighthouse-ci not installed)"
+  print_warning "Performance testing skipped (lhci not installed)"
 fi
 
 echo ""
