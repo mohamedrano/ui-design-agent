@@ -183,7 +183,7 @@ jobs:
       - name: 🚀 Start server in background
         run: |
           pnpm start &
-          sleep 10
+          npx wait-on http://localhost:3000/api/health --timeout 30000
         env:
           SKIP_ENV_VALIDATION: 'true'
 
