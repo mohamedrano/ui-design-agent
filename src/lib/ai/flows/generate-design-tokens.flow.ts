@@ -1,30 +1,37 @@
 import { defineFlow } from '@genkit-ai/flow';
+import { z } from 'zod';
+
+const inputSchema = z.object({
+  requirements: z.string(),
+  options: z
+    .object({
+      includeDocs: z.boolean().optional().default(false),
+      format: z.string().optional().default('json'),
+    })
+    .optional()
+    .default({}),
+});
+
+const outputSchema = z.object({
+  tokens: z.object({
+    color: z.record(z.any()),
+    typography: z.record(z.any()),
+    spacing: z.record(z.string()),
+    radius: z.record(z.string()),
+    shadow: z.record(z.string()),
+  }),
+  documentation: z.string(),
+  format: z.string(),
+});
 
 export const generateDesignTokensFlow = defineFlow(
   {
     name: 'generateDesignTokensFlow',
-    inputSchema: {
-      requirements: { type: String },
-      options: {
-        type: Object,
-        properties: {
-          includeDocs: { type: Boolean, default: false },
-          format: { type: String, default: 'json' },
-        },
-      },
-    },
-    outputSchema: {
-      type: Object,
-      properties: {
-        tokens: { type: Object },
-        documentation: { type: String },
-        format: { type: String },
-      },
-    },
+    inputSchema,
+    outputSchema,
   },
   async input => {
-    const { requirements = '', options = {} as Record<string, unknown> } =
-      input;
+    const { requirements = '', options = {} } = input;
 
     const tokens = {
       color: {
@@ -42,12 +49,12 @@ export const generateDesignTokensFlow = defineFlow(
         },
       },
       spacing: {
-        1: '4px',
-        2: '8px',
-        3: '12px',
-        4: '16px',
-        6: '24px',
-        8: '32px',
+        '1': '4px',
+        '2': '8px',
+        '3': '12px',
+        '4': '16px',
+        '6': '24px',
+        '8': '32px',
       },
       radius: { sm: '4px', md: '8px', lg: '12px' },
       shadow: {

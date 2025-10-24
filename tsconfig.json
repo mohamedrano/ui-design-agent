@@ -31,13 +31,13 @@
     },
     "allowSyntheticDefaultImports": true,
     "moduleDetection": "force",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
@@ -55,7 +55,6 @@
     "out",
     "dist",
     "build",
-    "ui-design-agent",
-    "src/lib/ai/flows/**"
+    "ui-design-agent"
   ]
 }
