@@ -283,18 +283,18 @@ jobs:
         run: |
           echo "🚀 Starting application server..."
           pnpm start &
-          sleep 30
-          curl -f http://localhost:3000/api/health || exit 1
+          echo "Waiting for server to be ready..."
+          npx wait-on http://localhost:3000/api/health --timeout 30000
 
       - name: ♿ Accessibility Testing
         run: |
-          echo "♿ Running accessibility tests..."
-          pnpm a11y:ci --base-url http://localhost:3000
+          echo "♿ Running accessibility tests with axe.config.cjs..."
+          pnpm a11y:ci
 
       - name: ⚡ Performance Testing
         run: |
-          echo "⚡ Running performance tests..."
-          pnpm perf:ci --base-url http://localhost:3000
+          echo "⚡ Running performance tests with lighthouserc.js bundle validation..."
+          pnpm perf:ci
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
@@ -352,23 +352,6 @@ jobs:
         run: |
           echo "📦 Analyzing bundle size..."
           ANALYZE=true pnpm build:analyze > bundle-analysis.txt 2>&1 || true
-
-      - name: 📊 Bundle Size Check
-        run: |
-          echo "📊 Checking bundle size limits..."
-
-          # Check main bundle size (should be < 250KB compressed)
-          MAIN_SIZE=$(find .next/static/chunks -name 'pages-*.js' -exec wc -c {} \; | awk '{sum+=$1} END {print sum}')
-          MAIN_SIZE_KB=$((MAIN_SIZE / 1024))
-
-          echo "Main bundle size: ${MAIN_SIZE_KB}KB"
-
-          if [ $MAIN_SIZE_KB -gt 250 ]; then
-            echo "❌ Main bundle size exceeds 250KB limit: ${MAIN_SIZE_KB}KB"
-            exit 1
-          else
-            echo "✅ Bundle size within limits: ${MAIN_SIZE_KB}KB"
-          fi
 
       - name: 🗂️ Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -497,10 +480,16 @@ jobs:
                 "${{ needs.security.result }}" == "success" ]]; then
             echo "## 🎉 Overall Status: SUCCESS" >> $GITHUB_STEP_SUMMARY
             echo "All quality gates passed! Code is ready for production." >> $GITHUB_STEP_SUMMARY
-          else
-            echo "## ❌ Overall Status: FAILED" >> $GITHUB_STEP_SUMMARY
-            echo "Some quality gates failed. Please review and fix issues." >> $GITHUB_STEP_SUMMARY
-          fi
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📊 Key Metrics Achieved:" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Bundle size < 250KB (enforced by Lighthouse CI)" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Accessibility score ≥ 95% (enforced by axe)" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Performance score ≥ 90% (enforced by Lighthouse CI)" >> $GITHUB_STEP_SUMMARY
+            echo "- ✅ Test coverage ≥ 80% (enforced by Vitest)" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "## ❌ Overall Status: FAILED" >> $GITHUB_STEP_SUMMARY
+              echo "Some quality gates failed. Please review and fix issues." >> $GITHUB_STEP_SUMMARY
+            fi
 
       - name: 💬 Update PR Status
         if: github.event_name == 'pull_request'
@@ -520,8 +509,8 @@ jobs:
             }};
 
             const comment = success
-              ? `## ✅ CI Pipeline Passed\n\nAll quality gates passed successfully! This PR is ready for review and merge.\n\n### 📊 Quality Metrics\n- ✅ Code Quality & Security\n- ✅ Test Coverage > 80%\n- ✅ Accessibility WCAG AA\n- ✅ Performance Budget Met\n- ✅ Bundle Size < 250KB`
-              : `## ❌ CI Pipeline Failed\n\nSome quality gates failed. Please review the failed jobs and fix the issues.\n\n### 🔍 Next Steps\n1. Check failed job logs\n2. Run \`pnpm ci:all\` locally\n3. Fix issues and push again`;
+              ? `## ✅ CI Pipeline Passed\n\nAll quality gates passed successfully! This PR is ready for review and merge.\n\n### 📊 Quality Metrics Enforced\n- ✅ Code Quality & Security (ESLint + CodeQL)\n- ✅ Test Coverage ≥ 80% (Vitest with strict thresholds)\n- ✅ Accessibility ≥ 95% (axe.config.cjs)\n- ✅ Performance ≥ 90% (lighthouserc.js)\n- ✅ Bundle Size < 250KB (lighthouserc.js assertions)\n- ✅ Security Audit (no critical vulnerabilities)`
+              : `## ❌ CI Pipeline Failed\n\nSome quality gates failed. Please review the failed jobs and fix the issues.\n\n### 🔍 Next Steps\n1. Check failed job logs for specific errors\n2. Run \`pnpm ci:all\` locally to reproduce\n3. Fix issues and push again\n4. Ensure axe.config.cjs and lighthouserc.js requirements are met`;
 
             github.rest.issues.createComment({
               owner,

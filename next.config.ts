@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next';
-import { env } from './src/lib/env';
 
 // Bundle Analyzer
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -159,7 +158,9 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_VERCEL_URL: process.env.VERCEL_URL,
     NEXT_PUBLIC_ENABLE_ANALYTICS: process.env.ENABLE_ANALYTICS,
     NEXT_PUBLIC_ENABLE_VOICE_FEATURES: process.env.ENABLE_VOICE_FEATURES,
-    NEXT_PUBLIC_ENABLE_3D_PREVIEW: process.env.ENABLE_3D_PREVIEW,
+    NEXT_PUBLIC_ENABLE_3D_PREVIEW:
+      process.env.NEXT_PUBLIC_ENABLE_3D_PREVIEW ??
+      process.env.ENABLE_3D_PREVIEW,
   },
 
   // Webpack customization
