@@ -118,6 +118,7 @@
     "@commitlint/cli": "^18.0.0",
     "@commitlint/config-conventional": "^18.0.0",
     "@lhci/cli": "^0.13.0",
+    "@axe-core/cli": "^4.8.0",
     "axe-playwright": "^4.8.0",
     "cross-env": "^7.0.3",
     "tsx": "^4.0.0",

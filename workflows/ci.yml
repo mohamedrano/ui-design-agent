@@ -10,7 +10,7 @@ on:
 
 env:
   SKIP_ENV_VALIDATION: 'true'
-  NODE_ENV: 'test'
+  CI: 'true'
 
 jobs:
   validate:
@@ -67,6 +67,8 @@ jobs:
 
       - name: 🧪 Run tests with coverage
         run: pnpm test:coverage
+        env:
+          NODE_ENV: test
 
       - name: 📊 Upload coverage to Codecov
         uses: codecov/codecov-action@v3
